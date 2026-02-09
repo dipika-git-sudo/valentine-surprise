@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Gallery 🖼️{% endblock %}
+
+{% block content %}
+<section class="card">
+  <h2 class="h2">Gallery 🖼️</h2>
+  <p class="subtitle">Click any photo to view it bigger ✨</p>
+
+  <div class="grid">
+    {% for img in images %}
+      <img class="gimg" src="{% static 'images/' %}{{ img }}" alt="Memory {{ forloop.counter }}">
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

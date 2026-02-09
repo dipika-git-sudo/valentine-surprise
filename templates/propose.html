@@ -1,0 +1,165 @@
+<!-- prettier-ignore -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Proposal 💍
+{% endblock title %}
+
+{% block content %}
+<section class="proposal-hero">
+  <!-- Proposal-only music -->
+  <audio autoplay loop muted id="bg-music">
+    <source src="{% static 'audio/proposal.mp3' %}" type="audio/mpeg" />
+  </audio>
+
+  <!-- Floating hearts layer -->
+  <div class="hearts" id="hearts"></div>
+
+  <div class="proposal-card">
+    <h2 class="proposal-title">Will you be my Valentine? 💖</h2>
+    <p class="proposal-subtitle">Say yes 😄</p>
+
+    <div class="actions">
+      <a href="/yes/" class="btn">Yes 💕</a>
+      <a href="/no/" class="btn btn-ghost btn-no-js">No 💔</a>
+
+
+    <p class="tap-note">Tap anywhere to start the music 🎶</p>
+  </div>
+</section>
+
+<style>
+  .proposal-hero {
+    min-height: calc(100vh - 70px);
+    display: grid;
+    place-items: center;
+    padding: 28px 16px;
+    position: relative;
+    overflow: hidden;
+
+    background:
+      linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.62)),
+      url("{% static 'images/propose.jpg' %}") center/cover no-repeat;
+  }
+
+  .proposal-card {
+    position: relative;
+    z-index: 2;
+    width: min(720px, 100%);
+    text-align: center;
+    padding: 42px 26px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
+    color: #fff;
+  }
+
+  .proposal-title {
+    margin: 0 0 10px;
+    font-size: clamp(32px, 4vw, 54px);
+    line-height: 1.05;
+  }
+
+  .proposal-subtitle {
+    margin: 10px auto 0;
+    opacity: 0.95;
+    font-size: 18px;
+  }
+
+  .tap-note {
+    margin-top: 16px;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+
+  .proposal-hero .hearts {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .proposal-hero .heart {
+    position: absolute;
+    bottom: -30px;
+    width: 16px;
+    height: 16px;
+    transform: rotate(45deg);
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 2px;
+    animation: floatUp linear 1;
+  }
+
+  .proposal-hero .heart::before,
+  .proposal-hero .heart::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+  }
+
+  .proposal-hero .heart::before {
+    top: -8px;
+    left: 0;
+  }
+  .proposal-hero .heart::after {
+    top: 0;
+    left: -8px;
+  }
+
+  @keyframes floatUp {
+    from {
+      transform: translateY(0) rotate(45deg);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-110vh) rotate(45deg);
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  // Autoplay fix: unmute + play after first click
+  document.addEventListener(
+    "click",
+    () => {
+      const music = document.getElementById("bg-music");
+      if (music) {
+        music.muted = false;
+        music.play();
+      }
+    },
+    { once: true },
+  );
+
+  // Floating hearts
+  const heartsWrap = document.getElementById("hearts");
+  setInterval(() => {
+    if (!heartsWrap) return;
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.opacity = (0.35 + Math.random() * 0.45).toFixed(2);
+    h.style.animationDuration = 5 + Math.random() * 3 + "s";
+    heartsWrap.appendChild(h);
+    setTimeout(() => h.remove(), 9000);
+  }, 550);
+
+  // No button dodge
+  const noBtn = document.querySelector(".btn-no-js");
+  if (noBtn) {
+    noBtn.addEventListener("mouseover", () => {
+      noBtn.style.position = "relative";
+      noBtn.style.left = Math.random() * 140 - 70 + "px";
+      noBtn.style.top = Math.random() * 80 - 40 + "px";
+    });
+  }
+</script>
+
+{% endblock content %}

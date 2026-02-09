@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home 💖{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="glass">
+    <p class="kicker">Today • Tomorrow • Always</p>
+    <h1 class="title">Happy Valentine’s Day 💘</h1>
+
+    <p class="subtitle">
+      A small website, a big feeling — made to say what words sometimes can’t.
+    </p>
+
+    <div class="hero-img-wrap">
+      <img class="hero-img" src="{% static 'images/' %}{{ featured }}" alt="Featured">
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="{% url 'message' %}">Read My Message 💌</a>
+      <a class="btn btn-ghost" href="{% url 'surprise' %}">Open Surprise ✨</a>
+      <a class="btn btn-ghost" href="{% url 'gallery' %}">Gallery 🖼️</a>
+      <a class="btn btn-ghost" href="{% url 'propose' %}">Proposal 💍</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
